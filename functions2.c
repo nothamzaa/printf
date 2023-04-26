@@ -94,7 +94,7 @@ int print_non_printable(va_list types, char buffer[],
 
 /************************* PRINT REVERSE *************************/
 /**
- * print_string - Prints string.
+ * print_reverse - Prints reverse string.
  * @types: Lista of arguments
  * @buffer: Buffer array to handle print
  * @flags:  Calculates active flags
@@ -118,25 +118,23 @@ int print_reverse(va_list types, char buffer[],
 	str = va_arg(types, char *);
 
 	if (str == NULL)
-		str = "(null)";
+	{
+		UNUSED(precision);
 
-	if (precision > 0) {
-		for (i = 0; i < precision && str[i]; i++)
-		{
-			write(1, &str[i], 1);
-			count++;
-		}
-	} else {
-		for (i = 0; str[i]; i++)
-		{
-			write(1, &str[i], 1);
-			count++;
-		}
+		str = ")Null(";
 	}
+	for (i = 0; str[i]; i++)
+		;
 
+	for (i = i - 1; i >= 0; i--)
+	{
+		char z = str[i];
+
+		write(1, &z, 1);
+		count++;
+	}
 	return (count);
 }
-
 /************************* PRINT A STRING IN ROT13 *************************/
 /**
  * print_rot13string - Print a string in rot13.
@@ -188,4 +186,3 @@ int print_rot13string(va_list types, char buffer[],
 	}
 	return (count);
 }
-
