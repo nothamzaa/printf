@@ -1,40 +1,35 @@
 #include "main.h"
 
-/**
- * print_char - Prints a single character to the standard output.
- * @c: The character to print.
- *
- * Return: The number of characters printed (always 1).
- */
 int print_char(char c)
 {
     return (write(1, &c, 1));
 }
 
-/**
- * print_string - Prints a string of characters to the standard output.
- * @str: A pointer to the string to print.
- *
- * Return: The number of characters printed.
- */
 int print_string(char *str)
 {
-    int len = 0;
+    int i = 0;
 
-    while (str[len] != '\0')
-        len++;
+    while (str[i])
+        i += print_char(str[i]);
 
-    return (write(1, str, len));
+    return (i);
 }
 
-/**
- * print_number - Prints an integer to the standard output.
- * @n: The integer to print.
- *
- * Return: The number of characters printed.
- */
 int print_number(int n)
 {
-    /* TODO: Implement the print_number() function */
-    return (0);
+    unsigned int num = n;
+    int digits = 0;
+
+    if (n < 0)
+    {
+        num = -num;
+        print_char('-');
+    }
+
+    if (num / 10)
+        digits += print_number(num / 10);
+
+    digits += print_char((num % 10) + '0');
+
+    return (digits);
 }
