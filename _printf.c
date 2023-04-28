@@ -12,7 +12,8 @@ int _printf(const char *format, ...)
     va_list args;
     char c;
     char *str;
-    int count = 0;
+    int count = 0, num;
+    int is_negative = 0;
 
     va_start(args, format);
 
@@ -35,6 +36,33 @@ int _printf(const char *format, ...)
                         write(1, str, 1);
                         str++;
                         count++;
+                    }
+                    break;
+                case 'd':
+                case 'i':
+                    num = va_arg(args, int);
+                    if (num < 0)
+                    {
+                        is_negative = 1;
+                        num = -num;
+                    }
+                    if (num == 0)
+                    {
+                        write(1, "0", 1);
+                        count++;
+                    }
+                    while (num > 0)
+                    {
+                        char digit = (num % 10) + '0';
+                        write(1, &digit, 1);
+                        count++;
+                        num /= 10;
+                    }
+                    if (is_negative)
+                    {
+                        write(1, "-", 1);
+                        count++;
+                        is_negative = 0;
                     }
                     break;
                 case '%':
